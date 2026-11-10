@@ -24,3 +24,4 @@ export const getDailyCutoffHandler = async (req: Request, res: Response): Promis
     res.status(500).json({ message: "Error al generar corte operativo diario" });
   }
 };
+

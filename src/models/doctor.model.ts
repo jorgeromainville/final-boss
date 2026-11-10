@@ -26,3 +26,4 @@ export const getAllSpecialties = () => {
     orderBy: { nombre: "asc" },
   });
 };
+

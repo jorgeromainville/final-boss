@@ -18,3 +18,4 @@ router.get("/", getPatientsHandler);
 router.get("/:id", getPatientByIdHandler);
 
 export default router;
+

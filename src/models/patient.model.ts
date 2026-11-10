@@ -26,3 +26,4 @@ export const getPatientById = (id: number) => {
     },
   });
 };
+

@@ -75,3 +75,4 @@ export const updateAppointmentStatusHandler = async (req: Request, res: Response
     res.status(500).json({ message: "Error al actualizar el estado de la cita" });
   }
 };
+

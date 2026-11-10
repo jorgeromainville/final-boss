@@ -15,3 +15,4 @@ router.get("/:id/appointments", verifyToken, authorize("MEDICO"), getDoctorAgend
 router.get("/:id/dates", verifyToken, authorize("MEDICO"), getDoctorAgendaHandler);
 
 export default router;
+

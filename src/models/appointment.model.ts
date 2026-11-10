@@ -38,3 +38,4 @@ export const updateAppointmentStatus = (id: number, estado: UpdateStatusInput["e
     data: { estado },
   });
 };
+

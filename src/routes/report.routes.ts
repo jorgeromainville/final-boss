@@ -14,3 +14,4 @@ router.get("/appointments-by-specialty", getSpecialtyReportHandler);
 router.get("/daily-cutoff", getDailyCutoffHandler);
 
 export default router;
+

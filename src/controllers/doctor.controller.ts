@@ -19,3 +19,4 @@ export const getSpecialtiesHandler = async (_req: Request, res: Response): Promi
     res.status(500).json({ message: "Error al obtener las especialidades" });
   }
 };
+

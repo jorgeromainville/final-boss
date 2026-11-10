@@ -33,3 +33,4 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction): vo
     res.status(401).json({ message: "Token inválido o expirado" });
   }
 };
+

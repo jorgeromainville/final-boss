@@ -48,3 +48,4 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({ message: "Error al iniciar sesión" });
   }
 };
+

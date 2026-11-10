@@ -21,3 +21,4 @@ export const createPatientSchema = z.object({
 });
 
 export type CreatePatientInput = z.infer<typeof createPatientSchema>;
+

@@ -26,3 +26,4 @@ export const getDailyCutoff = async (date: string) => {
     _count: { estado: true },
   });
 };
+
