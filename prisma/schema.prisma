@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─────────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────────
+
+enum Role {
+  RECEPCIONISTA
+  MEDICO
+  GERENCIA
+
+  @@map("role")
+}
+
+enum EstadoCita {
+  PROGRAMADA
+  COMPLETADA
+  CANCELADA
+
+  @@map("estado_cita")
+}
+
+// ─────────────────────────────────────────────
+// MODELOS DEL NEGOCIO
+// ─────────────────────────────────────────────
+
+model Especialidad {
+  id          Int      @id @default(autoincrement())
+  nombre      String   @unique @map("nombre")
+  descripcion String?  @map("descripcion")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  medicos Medico[]
+
+  @@map("especialidades")
+}
+
+model Medico {
+  id             Int      @id @default(autoincrement())
+  nombre         String   @map("nombre")
+  apellido       String   @map("apellido")
+  email          String   @unique @map("email")
+  especialidadId Int      @map("id_especialidad")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  especialidad Especialidad @relation(fields: [especialidadId], references: [id], onDelete: Restrict)
+  citas        Cita[]
+
+  @@map("medicos")
+}
+
+model Paciente {
+  id              Int      @id @default(autoincrement())
+  nombre          String   @map("nombre")
+  apellido        String   @map("apellido")
+  email           String   @unique @map("email")
+  fechaNacimiento DateTime @map("fecha_nacimiento")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  citas Cita[]
+
+  @@map("pacientes")
+}
+
+model Cita {
+  id         Int        @id @default(autoincrement())
+  pacienteId Int        @map("id_paciente")
+  medicoId   Int        @map("id_medico")
+  fechaCita  DateTime   @map("fecha_cita")
+  estado     EstadoCita @default(PROGRAMADA) @map("estado")
+  motivo     String?    @map("motivo")
+  createdAt  DateTime   @default(now()) @map("created_at")
+
+  paciente Paciente @relation(fields: [pacienteId], references: [id], onDelete: Restrict)
+  medico   Medico   @relation(fields: [medicoId], references: [id], onDelete: Restrict)
+
+  @@map("citas")
+}
+
+// ─────────────────────────────────────────────
+// MODELO DE AUTENTICACIÓN
+// ─────────────────────────────────────────────
+
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique @map("email")
+  password  String   @map("password")
+  role      Role     @map("role")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("users")
+}
