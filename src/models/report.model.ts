@@ -1,6 +1,5 @@
 import prisma from "../config/prisma.js";
 
-// Reporte 1: Total citas por especialidad usando $queryRaw seguro
 export const getAppointmentsBySpecialty = () => {
   return prisma.$queryRaw<Array<{ specialty: string; total_appointments: number }>>`
     SELECT e.nombre AS specialty, COUNT(c.id)::int AS total_appointments
@@ -12,7 +11,6 @@ export const getAppointmentsBySpecialty = () => {
   `;
 };
 
-// Reporte 2: Corte operativo diario usando groupBy nativo de Prisma
 export const getDailyCutoff = async (date: string) => {
   const startOfDay = new Date(`${date}T00:00:00.000Z`);
   const endOfDay = new Date(`${date}T23:59:59.999Z`);
@@ -26,4 +24,3 @@ export const getDailyCutoff = async (date: string) => {
     _count: { estado: true },
   });
 };
-

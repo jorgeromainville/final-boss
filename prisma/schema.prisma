@@ -7,34 +7,22 @@ datasource db {
   provider = "postgresql"
 }
 
-// ─────────────────────────────────────────────
-// ENUMS
-// ─────────────────────────────────────────────
-
 enum Role {
   RECEPCIONISTA
   MEDICO
   GERENCIA
-
-  @@map("role")
 }
 
 enum EstadoCita {
   PROGRAMADA
   COMPLETADA
   CANCELADA
-
-  @@map("estado_cita")
 }
-
-// ─────────────────────────────────────────────
-// MODELOS DEL NEGOCIO
-// ─────────────────────────────────────────────
 
 model Especialidad {
   id          Int      @id @default(autoincrement())
-  nombre      String   @unique @map("nombre")
-  descripcion String?  @map("descripcion")
+  nombre      String   @unique
+  descripcion String?
   createdAt   DateTime @default(now()) @map("created_at")
 
   medicos Medico[]
@@ -43,14 +31,14 @@ model Especialidad {
 }
 
 model Medico {
-  id             Int      @id @default(autoincrement())
-  nombre         String   @map("nombre")
-  apellido       String   @map("apellido")
-  email          String   @unique @map("email")
-  especialidadId Int      @map("id_especialidad")
-  createdAt      DateTime @default(now()) @map("created_at")
+  id             Int          @id @default(autoincrement())
+  nombre         String
+  apellido       String
+  email          String       @unique
+  especialidadId Int          @map("id_especialidad")
+  createdAt      DateTime     @default(now()) @map("created_at")
 
-  especialidad Especialidad @relation(fields: [especialidadId], references: [id], onDelete: Restrict)
+  especialidad Especialidad @relation(fields: [especialidadId], references: [id])
   citas        Cita[]
 
   @@map("medicos")
@@ -58,9 +46,9 @@ model Medico {
 
 model Paciente {
   id              Int      @id @default(autoincrement())
-  nombre          String   @map("nombre")
-  apellido        String   @map("apellido")
-  email           String   @unique @map("email")
+  nombre          String
+  apellido        String
+  email           String   @unique
   fechaNacimiento DateTime @map("fecha_nacimiento")
   createdAt       DateTime @default(now()) @map("created_at")
 
@@ -74,27 +62,22 @@ model Cita {
   pacienteId Int        @map("id_paciente")
   medicoId   Int        @map("id_medico")
   fechaCita  DateTime   @map("fecha_cita")
-  estado     EstadoCita @default(PROGRAMADA) @map("estado")
-  motivo     String?    @map("motivo")
+  estado     EstadoCita @default(PROGRAMADA)
+  motivo     String?
   createdAt  DateTime   @default(now()) @map("created_at")
 
-  paciente Paciente @relation(fields: [pacienteId], references: [id], onDelete: Restrict)
-  medico   Medico   @relation(fields: [medicoId], references: [id], onDelete: Restrict)
+  paciente Paciente @relation(fields: [pacienteId], references: [id])
+  medico   Medico   @relation(fields: [medicoId], references: [id])
 
   @@map("citas")
 }
 
-// ─────────────────────────────────────────────
-// MODELO DE AUTENTICACIÓN
-// ─────────────────────────────────────────────
-
 model Usuario {
   id        Int      @id @default(autoincrement())
-  email     String   @unique @map("email")
-  password  String   @map("password")
-  role      Role     @map("role")
+  email     String   @unique
+  password  String
+  role      Role
   createdAt DateTime @default(now()) @map("created_at")
 
   @@map("users")
 }
-

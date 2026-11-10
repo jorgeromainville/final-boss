@@ -8,13 +8,13 @@ export const createAppointmentHandler = async (req: Request, res: Response): Pro
 
     const paciente = await prisma.paciente.findUnique({ where: { id: pacienteId } });
     if (!paciente) {
-      res.status(404).json({ message: `El paciente con id ${pacienteId} no existe` });
+      res.status(404).json({ message: "El paciente no existe" });
       return;
     }
 
     const medico = await prisma.medico.findUnique({ where: { id: medicoId } });
     if (!medico) {
-      res.status(404).json({ message: `El médico con id ${medicoId} no existe` });
+      res.status(404).json({ message: "El medico no existe" });
       return;
     }
 
@@ -35,7 +35,7 @@ export const getDoctorAgendaHandler = async (req: Request, res: Response): Promi
   try {
     const medicoId = parseInt(req.params.id as string, 10);
     if (isNaN(medicoId)) {
-      res.status(400).json({ message: "ID de médico inválido" });
+      res.status(400).json({ message: "ID de medico invalido" });
       return;
     }
 
@@ -53,7 +53,7 @@ export const getDoctorAgendaHandler = async (req: Request, res: Response): Promi
     const agenda = await AppointmentModel.getDoctorAgenda(medicoId, from, to);
     res.json(agenda);
   } catch {
-    res.status(500).json({ message: "Error al obtener la agenda del médico" });
+    res.status(500).json({ message: "Error al obtener la agenda" });
   }
 };
 
@@ -61,7 +61,7 @@ export const updateAppointmentStatusHandler = async (req: Request, res: Response
   try {
     const id = parseInt(req.params.id as string, 10);
     if (isNaN(id)) {
-      res.status(400).json({ message: "ID de cita inválido" });
+      res.status(400).json({ message: "ID de cita invalido" });
       return;
     }
 
@@ -72,7 +72,6 @@ export const updateAppointmentStatusHandler = async (req: Request, res: Response
       res.status(404).json({ message: "Cita no encontrada" });
       return;
     }
-    res.status(500).json({ message: "Error al actualizar el estado de la cita" });
+    res.status(500).json({ message: "Error al actualizar la cita" });
   }
 };
-

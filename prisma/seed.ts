@@ -2,9 +2,6 @@ import bcrypt from "bcryptjs";
 import prisma from "../src/config/prisma.js";
 
 async function main() {
-  console.log("🌱 Sembrando datos iniciales de prueba...");
-
-  // Limpieza en orden por dependencias de foreign keys
   await prisma.cita.deleteMany();
   await prisma.medico.deleteMany();
   await prisma.especialidad.deleteMany();
@@ -13,7 +10,6 @@ async function main() {
 
   const passwordHasheada = await bcrypt.hash("123456", 10);
 
-  // 1. Usuarios con roles (para login / autenticación)
   await prisma.usuario.create({
     data: {
       email: "recepcion@clinica.com",
@@ -38,29 +34,27 @@ async function main() {
     },
   });
 
-  // 2. Especialidades
   const espCardio = await prisma.especialidad.create({
     data: {
       nombre: "Cardiología",
-      descripcion: "Salud cardiovascular y prevención",
+      descripcion: "Salud cardiovascular",
     },
   });
 
   const espPedia = await prisma.especialidad.create({
     data: {
       nombre: "Pediatría",
-      descripcion: "Atención médica integral infantil",
+      descripcion: "Atención médica infantil",
     },
   });
 
   const espDerma = await prisma.especialidad.create({
     data: {
       nombre: "Dermatología",
-      descripcion: "Cuidado clínico de la piel",
+      descripcion: "Cuidado de la piel",
     },
   });
 
-  // 3. Médicos (al menos 2 por especialidad)
   const doc1 = await prisma.medico.create({
     data: {
       nombre: "Carlos",
@@ -97,7 +91,6 @@ async function main() {
     },
   });
 
-  // 4. Pacientes
   const pac1 = await prisma.paciente.create({
     data: {
       nombre: "Juan",
@@ -116,7 +109,6 @@ async function main() {
     },
   });
 
-  // 5. Citas iniciales (una futura y dos para reportes)
   const fechaFutura = new Date();
   fechaFutura.setDate(fechaFutura.getDate() + 2);
 
@@ -137,19 +129,18 @@ async function main() {
       medicoId: doc1.id,
       fechaCita: fechaHoy,
       estado: "COMPLETADA",
-      motivo: "Electrocardiograma de rutina",
+      motivo: "Consulta general",
     },
   });
 
-  console.log("✅ Sembrado completado exitosamente.");
+  console.log("Datos de prueba sembrados");
 }
 
 main()
   .catch((e) => {
-    console.error("Error en seed:", e);
+    console.error(e);
     process.exit(1);
   })
   .finally(async () => {
     await prisma.$disconnect();
   });
-

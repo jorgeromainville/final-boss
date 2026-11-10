@@ -15,7 +15,6 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Rutas montadas bajo /api
 app.use("/api/auth", authRoutes);
 app.use("/api/patients", patientRoutes);
 app.use("/api/doctors", doctorRoutes);
@@ -24,9 +23,9 @@ app.use("/api/dates", appointmentRoutes);
 app.use("/api/reports", reportRoutes);
 
 app.get("/", (_req, res) => {
-  res.json({ message: "API Clínica Salud Integral Operativa", status: "online" });
+  res.json({ message: "API Clinica Salud Integral", status: "ok" });
 });
 
 app.listen(PORT, () => {
-  console.log(`🏥 Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
