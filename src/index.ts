@@ -19,6 +19,7 @@ app.use(express.json());//activa el traductor JSON para cuando envian datos || J
 
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));// documentacion interactiva de swagger en /api/docs
 app.use("/api/auth", authRoutes);// url de autenticacion ejm: /api/auth/login)
+app.use("/api/specialties", doctorRoutes);// url de catalogo de especialidades
 app.use("/api/patients", patientRoutes);// url de pacientes
 app.use("/api/doctors", doctorRoutes);// url de doctor 
 app.use("/api/appointments", appointmentRoutes);// url de citas
