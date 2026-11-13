@@ -2,6 +2,8 @@ import "dotenv/config";// carga el archivo .env apenas arranca el server
 import express from "express";// importa la libreria de express
 import type { Application } from "express";// importa el tipo app de ts para no traer cosas de mas
 import cors from "cors";// importa cors 
+import swaggerUi from "swagger-ui-express";// importa interfaz visual de swagger
+import { swaggerDocument } from "./config/swagger.js";// importa la especificacion de las rutas para swagger
 
 import authRoutes from "./routes/auth.routes.js";//trae las rutas de autenticacion (registro y login)
 import patientRoutes from "./routes/patient.routes.js";//trae las rutas de pacientes
@@ -15,6 +17,7 @@ const PORT = process.env.PORT || 3000; //lee el puerto en .env o usa por defecto
 app.use(cors());//pone CORS en todas las rutas de mi api
 app.use(express.json());//activa el traductor JSON para cuando envian datos || JSON => objeto de js dentro de req body
 
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));// documentacion interactiva de swagger en /api/docs
 app.use("/api/auth", authRoutes);// url de autenticacion ejm: /api/auth/login)
 app.use("/api/patients", patientRoutes);// url de pacientes
 app.use("/api/doctors", doctorRoutes);// url de doctor 
