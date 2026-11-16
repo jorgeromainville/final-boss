@@ -26,7 +26,8 @@ export const createAppointmentHandler = async (req: Request, res: Response): Pro
     });
 
     res.status(201).json(cita); //retorna la cita creada
-  } catch {//atrapa lo que salio mal y
+  } catch (error) {//atrapa lo que salio mal y
+    console.error("Error al agendar cita:", error);
     res.status(500).json({ message: "Error al agendar la cita" });//retorna un mensaje de error
   }
 };

@@ -5,7 +5,8 @@ export const getSpecialtyReportHandler = async (_req: Request, res: Response): P
   try {//intenta generar el reporte de citas por especialidad
     const report = await ReportModel.getAppointmentsBySpecialty();
     res.json(report);
-  } catch {//si hay un error, muestra el error
+  } catch (error) {//si hay un error, muestra el error
+    console.error("Error reporte especialidad:", error);
     res.status(500).json({ message: "Error al generar reporte de citas por especialidad" });
   }
 };
@@ -20,7 +21,8 @@ export const getDailyCutoffHandler = async (req: Request, res: Response): Promis
 
     const report = await ReportModel.getDailyCutoff(date);//obtiene el cierre diario de citas
     res.json(report);//muestra el cierre diario de citas
-  } catch {//si hay un error, muestra el error
+  } catch (error) {//si hay un error, muestra el error
+    console.error("Error corte diario:", error);
     res.status(500).json({ message: "Error al generar corte operativo diario" });
   }
 };
